@@ -10,9 +10,15 @@ def init():
     fps_: the desired frame per second, the algorithm will find the optimal solution in 1/fps seconds
     """
     N_ = 8
-    M_ = 8
+    #M_ = 8
+    M_ = 14
     fps_ = 30
-    x0_ = 320 / RESCALE
-    y0_ = 60 / RESCALE
-    dx_ = 84 / RESCALE
-    dy_ = 84 / RESCALE
+    x0_ = 50
+    y0_ = 200
+    dx_ = 25
+    dy_ = 24
+
+    #x0_ = 100 / RESCALE
+    #y0_ = 100/ RESCALE
+    #dx_ = 60 / RESCALE
+    #dy_ = 60 / RESCALE

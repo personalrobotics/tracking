@@ -12,8 +12,11 @@
 using namespace cv;
 using namespace std;
 
-#define CAMERA_WIDTH 720
-#define CAMERA_HEIGHT 576
+//#define CAMERA_WIDTH 720      //Gelsight settings?
+//#define CAMERA_HEIGHT 576
+
+#define CAMERA_WIDTH 640
+#define CAMERA_HEIGHT 480
 
 #define SCALE_DOWN 1
 

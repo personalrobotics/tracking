@@ -63,11 +63,14 @@ void Matching::init(std::vector<std::vector<double>> centers) {
         // std::cout<<C[i].x<<" "<<C[i].y<<" "<<std::endl;
     }
 
+    //free(done);
+    //free(occupied);
+
     // init arrays for search
     memset(done, 0, sizeof(done));
     memset(occupied, -1, sizeof(occupied));
     minf = -1;
-
+    
     // sort by x-axis, if same by y-axis
     std::sort(C, C+n);
 
