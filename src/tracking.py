@@ -129,11 +129,14 @@ while(True):
     out.write(frame)
 
     z_dist = marker_displacement.avg_z_displacement(flow)
-    print("avg_z: ", z_dist)
+    print("Force Z: ", z_dist)
+    z_torque = marker_displacement.avg_z_curl(flow)
+    print("Torque Z: ", z_torque)
     
     ##### ROS COMMENT
     
     marker_wrench.force.z = z_dist
+    marker_wrench.torque.z = z_torque
     pub.publish(marker_wrench)
     
 
