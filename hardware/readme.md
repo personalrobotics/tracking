@@ -1,4 +1,5 @@
-#Fabrication
+# Fabrication
+
 The wiki for fabricating Gelslight sensors may be found [here](https://github.com/personalrobotics/pr_docs/wiki/Gelsight-Mini-Sensor-Fabrication).
 
 ## Removing Kinova KG-2 Distal Phalanxes
