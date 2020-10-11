@@ -35,7 +35,7 @@ cap = cv2.VideoCapture(0)
 
 
 # Resize scale for faster image processing
-setting.init()
+setting.init(1, 2) #Args: sensor identifier, camera resize
 RESCALE = setting.RESCALE
 
 # Create Mathing Class
