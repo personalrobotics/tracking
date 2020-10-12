@@ -92,17 +92,16 @@ SSH into the Nano with x forwarding
 ```
 ssh -X nano
 ```
-then either run the base tracking script or the tracking with taring action script.
+then either run the base tracking script or the tracking with taring action script (if running the feeding demo without the ATI F/T sensor).
 ```
 cd ~/nano/*/gelslight_tracking
 python3 src/tracking_w_taring_action.py
 ```
-cking script o
 ## Output
 
 **Tracking**
 
-The tracking algorithms 
+The tracking algorithms will display the camera feed and print the force and torque in the Z-direction. The gelsight node initialized by these scripts publishes the camera feed and a 6-DOF Wrench (2 implemented).
 
 **Matching**
 
