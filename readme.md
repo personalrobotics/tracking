@@ -15,15 +15,13 @@ $ git clone https://github.com/personalrobotics/gelslight_tracking.git
 * numpy
 * rospy
 
-```
-pip3 install pybind11 numpy opencv-python
-```
+## Running
 
-## Example
+The dot tracking script `tracking.py` takes two argument: sensor id and rescale value. These inputs are used to select the dot tracking configuration in the `setting.py` file.
 
 ```
 make
-python3 src/tracking.py
+python3 src/tracking.py 1 3
 ```
 ## Configuration
 
@@ -32,9 +30,9 @@ Configuration based on different marker settings (marker number/color/size/inter
 
 ### Step 1: Marker detection
 
-The marker detection is in	`src/marker_detection.py`
+The marker detection is implemented in	`src/marker_detection.py`.
 
-Modify the code based on the marker color & size using the script
+Modify values using the `test_find_marker.py` script.
 
 ```
 python3 src/test_find_marker.py
@@ -42,9 +40,9 @@ python3 src/test_find_marker.py
 
 **Set Parameters**:
 
-* `src/marker_detection/find_marker`: The kernel size in GaussianBlur, it depends on marker size. should could cover the whole marker.
-* `src/marker_detection/find_marker`: change `yellowMin, yellowMax` based on markers' color in HSV space.
-* `src/marker_detection/marker_center`: change the `areaThresh1, areaThresh2` for the minimal and maximal size of markers
+* `src/marker_detection/find_marker`: The scale of the GaussianBlur on line 22. This value depends on the size of the marker on the screen.
+* `src/marker_detection/find_marker`: change `yellowMin, yellowMax` on lines 35 and 36 based on markers' color in HSV space.
+* `src/marker_detection/marker_center`: change the `areaThresh1, areaThresh2` on lines 50 and 51 for the minimum and maximum size of markers
 
 
 
@@ -54,11 +52,7 @@ The definition of the first guesses for marker matching are in
 
 `src/setting.py`
 
-Modify the values using the script
-```
-python3 src/test_settings.py
-```
-Slide the adjuster bars 
+Modify the values using the `test_settings.py` script. Slide the adjuster bars until white dots corresponding to the markers appear on a black background.
 
 * RESCALE: scale down
 * N, M: the row and column of the marker array
@@ -77,7 +71,7 @@ roscore
 In another terminal, run the script
 ```
 cd ~/*/gelslight_tracking
-python3 src/tracking.py 1 2
+python3 src/tracking.py 1 3
 ```
 
 which takes the sensor identifier flag and the image rescale value as arguments, respectively. 
@@ -97,23 +91,11 @@ then either run the base tracking script or the tracking with taring action scri
 cd ~/nano/*/gelslight_tracking
 python3 src/tracking_w_taring_action.py
 ```
+
+Note: The USB ports on the Nano which the sensors are plugged into affect the ordering of the camera ports when powering on ADA. 
+
 ## Output
 
 **Tracking**
 
 The tracking algorithms will display the camera feed and print the force and torque in the Z-direction. The gelsight node initialized by these scripts publishes the camera feed and a 6-DOF Wrench (2 implemented).
-
-**Matching**
-
-The Matching Class has a function `get_flow`. It return the flow information:
-
-```
-flow = m.get_flow()
-
-output: (Ox, Oy, Cx, Cy, Occupied) = flow
-    Ox, Oy: N*M matrix, the x and y coordinate of each marker at frame 0
-    Cx, Cy: N*M matrix, the x and y coordinate of each marker at current frame
-    Occupied: N*M matrix, the index of the marker at each position, -1 means inferred. 
-        e.g. Occupied[i][j] = k, meaning the marker mc[k] lies in row i, column j.
-```
-
