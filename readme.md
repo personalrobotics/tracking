@@ -23,6 +23,9 @@ The dot tracking script `tracking.py` takes two argument: sensor id and rescale 
 make
 python3 src/tracking.py 1 3
 ```
+
+
+
 ## Configuration
 
 Configuration based on different marker settings (marker number/color/size/interval)
@@ -70,7 +73,7 @@ roscore
 
 In another terminal, run the script
 ```
-cd ~/*/gelslight_tracking
+cd ~/<your_catkin_workspace>/src/gelslight_tracking
 python3 src/tracking.py 1 3
 ```
 
@@ -80,19 +83,23 @@ which takes the sensor identifier flag and the image rescale value as arguments,
 * Press *q* to terminate the program.
 
 **Running on ADA**
-Transfer the files into the Nvidia Jetson Nano onboard ADA.
+Transfer the files into the Nvidia Jetson Nano onboard ADA. 
 
-SSH into the Nano with x forwarding
+Turn on ADA. SSH into the Nano with x forwarding and set weebo as the Ros Master
 ```
 ssh -X nano
+useweebo
 ```
-then either run the base tracking script or the tracking with taring action script (if running the feeding demo without the ATI F/T sensor).
+Either run the base tracking script or the tracking with taring action script (if running the feeding demo without the ATI F/T sensor). Note that Nano uses python2 rather than python3. 
 ```
-cd ~/nano/*/gelslight_tracking
-python3 src/tracking_w_taring_action.py
+cd ~/catkin_ws/src/gelslight_tracking
+python2 src/tracking_w_taring_action.py 1 3
 ```
 
 Note: The USB ports on the Nano which the sensors are plugged into affect the ordering of the camera ports when powering on ADA. 
+Note: ZeroDivisionError likely means you are using the Intel RealSense camera rather than the Gelslight camera. Ensure the sensors are plugged into the correct ports and reboot ADA. Or change the cv2.VideoCapture camera index  in the code. 
+
+If you are having trouble closing video windows, refer to [this](https://unix.stackexchange.com/questions/113893/how-do-i-find-out-which-process-is-using-my-v4l2-webcam).
 
 ## Output
 
