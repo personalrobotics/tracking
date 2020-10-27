@@ -55,7 +55,7 @@ The definition of the first guesses for marker matching are in
 
 `src/setting.py`
 
-Modify the values using the `test_settings.py` script. Slide the adjuster bars until white dots corresponding to the markers appear on a black background.
+Modify the values using the `test_settings.py` script which takes the rescale value as an argument. Slide the adjuster bars until white dots corresponding to the markers appear on a black background.
 
 * RESCALE: scale down
 * N, M: the row and column of the marker array
