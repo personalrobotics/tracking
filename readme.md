@@ -96,8 +96,11 @@ cd ~/catkin_ws/src/gelslight_tracking
 python2 src/tracking_w_taring_action.py 1 3
 ```
 
-Note: The USB ports on the Nano which the sensors are plugged into affect the ordering of the camera ports when powering on ADA. 
-Note: ZeroDivisionError likely means you are using the Intel RealSense camera rather than the Gelslight camera. Ensure the sensors are plugged into the correct ports and reboot ADA. Or change the cv2.VideoCapture camera index  in the code. 
+**Note**: The USB ports on the Nano which the sensors are plugged into affect the ordering of the camera ports when powering on ADA. 
+
+**Note**: ZeroDivisionError likely means you are using the Intel RealSense camera rather than the Gelslight camera. Ensure the sensors are plugged into the correct ports and reboot ADA. Or change the cv2.VideoCapture camera index  in the code. 
+
+**Note**: If the initial image has lots of green and/or red arrows, refer to the marker matching section. 
 
 If you are having trouble closing video windows, refer to [this](https://unix.stackexchange.com/questions/113893/how-do-i-find-out-which-process-is-using-my-v4l2-webcam).
 
