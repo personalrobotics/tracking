@@ -1,11 +1,21 @@
 # CAD Files
 The Solidworks CAD files for the Gelslight sensor may be found [here](https://github.com/KHsu2/fingergelsight).
 
-# Fabrication
+# Fabrication Tutorials
 
 The instructions with pictures for fabricating the Gelslight sensors may be found [here](https://robotfeeding.io/hardware/gelsight-mini-tactile-sensor/)
 
 The print-friendly wiki for fabricating Gelslight sensors may be found [here](https://github.com/personalrobotics/pr_docs/wiki/Gelsight-Mini-Sensor-Fabrication).
+
+## Fabrication Equipment at UW
+* 3D Printer, Laser Cutter
+	* UW Makerspaces: [The Mill](https://hfs.uw.edu/The-MILL/Maker-Space-1), [Area 01](https://www.washington.edu/area01/), [The 8](https://hfs.uw.edu/The-8)
+	* UW CSE Manufacturing Lab (ask Rosario)
+	* UW ME [Machine Shop](https://www.me.washington.edu/shops/machine/printers) 
+	* Note: Ask employees or shop master for operation instructions 
+* Silicone Manufacturing Equipment
+	* Fume hood, vacuum chamber, toaster oven
+	* Located in [ECE/EEB B031](https://www.washington.edu/maps/#!/ece)
 
 ## Removing Kinova KG-2 Distal Phalanxes
 The distal phalanx (fingertip) is secured by a pin at the joint and by an actuating bar that feeds through the proximal phalanx. First, remove the pair of bolts at the joint located furthest from the base, then use a small rod to push out the pin. Next, free the distal phalanx from the actuating bar by gently prying the rubber. Be careful not to stretch rubber excessively. 
