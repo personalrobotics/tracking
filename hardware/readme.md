@@ -1,3 +1,6 @@
+# CAD Files
+The Solidworks CAD files for the Gelslight sensor may be found [here](https://github.com/KHsu2/fingergelsight).
+
 # Fabrication
 
 The instructions with pictures for fabricating the Gelslight sensors may be found [here](https://robotfeeding.io/hardware/gelsight-mini-tactile-sensor/)
