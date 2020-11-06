@@ -96,6 +96,7 @@ rescale = 2
 if int(sys.argv[1] == 2):
     rescale = 3
     both_fingers_flag = True
+    
 # Define rescale
 if len(sys.argv) == 3:
     rescale = float(sys.argv[2])
@@ -112,7 +113,7 @@ if not both_fingers_flag:
     try: 
         setting.init(1, rescale)
     except ValueError: 
-        print "Invalid number of arguments passed"
+        print("Invalid number of arguments passed")
 
     # Create Mathing Class
     m = find_marker.Matching(
@@ -135,7 +136,7 @@ else:
     try: 
         setting.init(1, rescale)
     except ValueError: 
-        print "Invalid number of arguments passed"
+        print( "Invalid number of arguments passed")
 
     # Create Mathing Class
     m = find_marker.Matching(
@@ -150,7 +151,7 @@ else:
     try: 
         setting.init(2, rescale)
     except ValueError: 
-        print "Invalid number of arguments passed"
+        print("Invalid number of arguments passed")
 
     # Create Mathing Class
     m2 = find_marker.Matching(
