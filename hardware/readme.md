@@ -23,6 +23,8 @@ The print-friendly wiki for fabricating Gelslight sensors may be found [here](ht
 * [Acrylic](): 
 * 
 
+# Gelslight Installation
+
 ## Removing Kinova KG-2 Distal Phalanxes
 The distal phalanx (fingertip) is secured by a pin at the joint and by an actuating bar that feeds through the proximal phalanx. First, remove the pair of bolts at the joint located furthest from the base, then use a small rod to push out the pin. Next, free the distal phalanx from the actuating bar by gently prying the rubber. Be careful not to stretch rubber excessively. 
 
