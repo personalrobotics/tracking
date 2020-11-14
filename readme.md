@@ -73,7 +73,7 @@ roscore
 
 In another terminal, run the script
 ```
-cd ~/<your_catkin_workspace>/src/gelslight_tracking
+cd ~/<path_to_ws>/src/gelslight_tracking
 python3 src/tracking.py 1 3
 ```
 
