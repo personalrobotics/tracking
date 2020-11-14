@@ -63,7 +63,8 @@ def gelsightTare(setting):
 
 
 rospy.init_node('gelsight', anonymous=True)
-server = tareAction(rospy.get_name())
+# server = tareAction(rospy.get_name())
+server = tareAction("/forque/bias_controller/trigger")
 # pub = rospy.Publisher('gs_ft_{}'.format(sys.argv[1]), WrenchStamped, queue_size=10)
 # pub = rospy.Publisher('gs_ft_1', WrenchStamped, queue_size=10)
 pub = rospy.Publisher('forque/forqueSensor', WrenchStamped, queue_size=10)
