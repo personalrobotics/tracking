@@ -18,11 +18,8 @@ import actionlib
 import pr_control_msgs.msg
 
 class tareAction(object):
-    # No feedback
-    #_feedback = 
 
     _result = pr_control_msgs.msg.TriggerAction
-    # ^ DEFINITEL WRONG
 
     def __init__(self, name):
         self._action_name = "/forque/bias_controller/trigger"
@@ -46,7 +43,6 @@ class tareAction(object):
             dx_=setting.dx_, 
             dy_=setting.dy_)
 
-        # TODO: Check if it really succeeded
         if success:
             self._result.message = ""
             self._result.success = True
@@ -66,7 +62,6 @@ def gelsightTare(setting):
     return m
 
 
-##### ROS COMMENT
 rospy.init_node('gelsight', anonymous=True)
 server = tareAction(rospy.get_name())
 # pub = rospy.Publisher('gs_ft_{}'.format(sys.argv[1]), WrenchStamped, queue_size=10)
@@ -77,6 +72,7 @@ marker_wrench = WrenchStamped()
 raw_camera_pub = rospy.Publisher('gs_raw_cam_1', Image, queue_size=10)
 camera_pub = rospy.Publisher('gs_cam_1', Image, queue_size=10)
 br = CvBridge()
+
 marker_wrench.wrench.force.x = 0
 marker_wrench.wrench.force.y = 0
 marker_wrench.wrench.force.z = 0
