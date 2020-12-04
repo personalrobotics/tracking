@@ -15,56 +15,64 @@ $ git clone https://github.com/personalrobotics/gelslight_tracking.git
 * numpy
 * rospy
 
-## Running
-
-The dot tracking script `tracking.py` takes two argument: sensor id and rescale value. These inputs are used to select the dot tracking configuration in the `setting.py` file.
-
-```
-make
-python3 src/tracking.py 1 3
-```
-
+## Installation
 
 
 ## Configuration
 
-Configuration based on different marker settings (marker number/color/size/interval)
+In the first iteration of the marker tracking algorithm, the initial positions of the markers are estimated and matched to corresponding detected markers. This means there are two potential modes of error: not detecting all of the markers, and the initial positions of the markers. The success of the marker tracking algorithm is largely dependent on proper tuning of these settings. 
 
+* If running on Ada, use `python2` rather than `python3`
+* A good starting point for tuning is the last used settings
 
 ### Step 1: Marker detection
 
-The marker detection is implemented in	`src/marker_detection.py`.
+The marker detection is implemented in `src/marker_detection.py` which uses Gaussian filtering and a min-max threshold in the HSV-space to detect the yellow markers. 
 
-Modify values using the `test_find_marker.py` script.
+Modify the parameters using the `test_find_marker.py` script which takes the image rescale value as an argument. Two images will appear: one is the raw image from the sensor, and the other is the filtered image. Slide the adjuster bars until white dots corresponding to the markers appear on a black background. 
 
 ```
-python3 src/test_find_marker.py
+python3 src/test_find_marker.py 3
 ```
 
-**Set Parameters**:
+* Press *q* to terminate the program.
+
+**Parameters**:
 
 * `src/marker_detection/find_marker`: The scale of the GaussianBlur on line 22. This value depends on the size of the marker on the screen.
 * `src/marker_detection/find_marker`: change `yellowMin, yellowMax` on lines 35 and 36 based on markers' color in HSV space.
 * `src/marker_detection/marker_center`: change the `areaThresh1, areaThresh2` on lines 50 and 51 for the minimum and maximum size of markers
 
+### Step 2: Initial Marker Positions
 
+The initial marker positions are implemented as an N x M array of points with constant spacing in the x and y direction, `dx`, `dy`. The position of the points is defined by the top-left dot of the array, `x0`, `y0`. These values are located in 
 
-### Step 2: Marker matching
+```
+src/setting.py
+```
 
-The definition of the first guesses for marker matching are in
+There is not proper strain relief on the cable of the camera in the sensor, which causes the camera to shift whenever they are removed from Ada. This affects the initial marker positions and will require tuning. Expect to spend time with this tuning. 
 
-`src/setting.py`
+Modify the values using the `test_settings.py` script which takes the rescale value as an argument. Initially, with non-zero `dx` and `dy` values, there will be a matrix of green arrows pointing from the red detected markers to the initial marker positions. Adjust the sliders until the arrows turn into small green spots inside the red markers. Modifying the slider values once the arrows have "snapped" into the dots will not make any considerable difference. Further adjustment should be done by re-running the script.
 
-Modify the values using the `test_settings.py` script which takes the rescale value as an argument. Slide the adjuster bars until white dots corresponding to the markers appear on a black background.
+```
+python3 src/test_settings.py 3
+```
 
+* Press *q* to terminate the program.
+
+**Parameters**:
 * RESCALE: scale down
 * N, M: the row and column of the marker array
 * x0, y0: the coordinate of upper-left marker (in original size)
 * dx, dy: the horizontal and vertical interval between adjacent markers (in original size)
 * fps_: the desired frame per second, the algorithm will find the optimal solution in 1/fps seconds
 
-### Step 3: Dot tracking
+## Running Dot Tracking
+
 **Base version**
+
+The dot tracking script `tracking.py` takes two argument: sensor id and rescale value. These inputs are used to select the dot tracking configuration in the `setting.py` file.
 
 Launch roscore.
 ```
@@ -76,14 +84,13 @@ In another terminal, run the script
 cd ~/<path_to_ws>/src/gelslight_tracking
 python3 src/tracking.py 1 3
 ```
-
 which takes the sensor identifier flag and the image rescale value as arguments, respectively. 
 
 * A higher rescale value decreases the resolution of the image which increases the frequency of the dot tracking algorithm. Changing this value will require modifying the settings.
 * Press *q* to terminate the program.
 
+
 **Running on ADA**
-Transfer the files into the Nvidia Jetson Nano onboard ADA. 
 
 Turn on ADA. SSH into the Nano with x forwarding and set weebo as the Ros Master
 ```
@@ -97,6 +104,8 @@ python2 src/tracking_w_taring_action.py 1 3
 ```
 
 **Note**: The USB ports on the Nano which the sensors are plugged into affect the ordering of the camera ports when powering on ADA. 
+
+<img src="hardware/pictures/nano_port_id.PNG" width="400"/>
 
 ## Output
 
