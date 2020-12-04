@@ -1,22 +1,26 @@
 The Gelslight is the PRL's vision-based tactile sensor designed to replace the ATI Nano-25 F/T sensor used for sensorized feeding on ADA. Inspired by MIT's GelSight sensor, the Gelslight achieves the smallest form factor of its class of sensors by using a miniature wide-angle camera, clever design, and precision manufacturing equipment. 
 
-# Installation
-Clone into the src folder of your catkin workspace. 
-```shell
-$ git clone https://github.com/personalrobotics/gelslight_tracking.git
-```
-
 # Marker Tracking Algorithm
 
 ## Dependencies
 
-* opencv (v 4.\*.\*)
+* opencv (v 4.2.0)
 * pybind11
 * numpy
 * rospy
 
 ## Installation
+Clone into the src folder of your catkin workspace. 
+```
+$ git clone https://github.com/personalrobotics/gelslight_tracking.git
+cd gelslight_tracking
+```
 
+Ensure that the python version referenced in the makefile `gelslight_tracking/makefile` matches your version of Python. Then remove `find_marker.so` and make. 
+```
+rm -rf src/find_marker.so
+make
+```
 
 ## Configuration
 
@@ -118,3 +122,11 @@ The tracking algorithms will display the camera feed and print the force and tor
 
 * If the Gelslight sensor feed has large green and/or red arrows, refer to the marker matching section. The ideal initial image should consist of green arrows with 0 length which will appear as dots. If you are having trouble closing video windows, refer to [this](https://unix.stackexchange.com/questions/113893/how-do-i-find-out-which-process-is-using-my-v4l2-webcam).
 * `Import Error: /<path_to_ws>/gelslight_tracking/src/find_marker.so` is an issue with the defined python version in the makefile. Update the python calls in `/<path_to_ws>/gelslight_tracking/makefile`. Note that python3 is used when running on Weebo and python2 is used when running on Nano. 
+
+## To Do
+* The calibration process in its current state is tedious and painful. Something that may help is to design a better strain relief for the camera cable. Larger and fewer markers may also be helpful as it will improve the marker detection and decrease overall latency. 
+* False positives may occur for marker detection due to debris getting trapped between the gray ink and the sensor pad, or the clear silicone securing the pad to the core which allows external lights to be seen by the camera. Again, larger and fewer markers may help false positives as well as false negatives. Different colored ink like red or blue may decrease false positives as well. 
+* A common issue with the marker tracking that occurs when pushing on the fork is the displacement vectors freezing when the force is released. This occurs because the force is released too rapidly. This creates a large displacement which may not register with the tracking algorithm. Potential solutions may be to speed up the algorithm and ensure that force changes are not too rapid. 
+* New calibration are required for average linear displacement and force. 
+* Slipping between the sensor pad and the fork handle causes issues as the dots may permanently deform, causes discrepancies in the force reading. 
+* An unexplored property is degradation over time of the sensor pad. The silicone ink may rub off and the silicone properties may not be constant with respect to time.
