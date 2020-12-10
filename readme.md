@@ -16,18 +16,17 @@ $ git clone https://github.com/personalrobotics/gelslight_tracking.git
 cd gelslight_tracking
 ```
 
-Ensure that the python version referenced in the makefile `gelslight_tracking/makefile` matches your version of Python. Then remove `find_marker.so` and make. 
+Ensure that the python version referenced in the makefile `gelslight_tracking/makefile` matches your version of Python. Then remove `find_marker.so` and recompile. 
 ```
 rm -rf src/find_marker.so
 make
 ```
 
-## Configuration
+## Sensor Configuration
 
-In the first iteration of the marker tracking algorithm, the initial positions of the markers are estimated and matched to corresponding detected markers. This means there are two potential modes of error: not detecting all of the markers, and the initial positions of the markers. The success of the marker tracking algorithm is largely dependent on proper tuning of these settings. 
+In the first iteration of the marker tracking algorithm, the detected markers are matched to an initialized grid of markers. In order for this to work properly, the initialized grid of markers must be close to the corresponding detected markers. This means there are two potential modes of error: not detecting all of the markers, and error in the initial positions of the markers. Careful tuning of these settings will ensure the success of the marker tracking algorithm. 
 
-* If running on Ada, use `python2` rather than `python3`
-* A good starting point for tuning is the last used settings
+* Note: A good starting point for tuning is the last used settings
 
 ### Step 1: Marker detection
 
@@ -117,6 +116,13 @@ python2 src/tracking_w_taring_action.py 1 3
 
 The tracking algorithms will display the camera feed and print the force and torque in the Z-direction. The gelsight node initialized by these scripts publishes the camera feed and a 6-DOF Wrench (2 implemented).
 
+## Force-Torque Calibration
+In its current state, the output of the sensor is the average displacement and curl in the z-axis. Calibration must be performed to map these outputs to force. A relevant paper on calibration of other tactile sensors on ADA may be found [here](https://personalrobotics.cs.washington.edu/publications/song2019shear.pdf). 
+
+The general idea is to attach the Gelslight sensor onto ADA and grip onto a fork handle with the industrial force-torque (FT) sensor. Have the robot push the fork into an object and record the readings from the tactile sensor and FT sensor, then calculate the mapping from the tactile sensor readings to the readings of the FT sensor. 
+
+* A common issue with the marker tracking that occurs when pushing on the fork is the displacement vectors freezing when the change in force is too large between frames. This may occur when the force is applied or released too rapidly. This creates a large displacement which may not register with the tracking algorithm. Potential solutions may be to speed up the algorithm and ensure that force changes are not too rapid by slowing down the joint speeds on ADA or pushing into something softer. 
+
 ## Common Issues
 * ZeroDivisionError likely means you are using the Intel RealSense camera rather than the Gelslight camera. Ensure the sensors are plugged into the correct ports and reboot ADA. Or change the cv2.VideoCapture camera index  in the code. 
 
@@ -124,9 +130,8 @@ The tracking algorithms will display the camera feed and print the force and tor
 * `Import Error: /<path_to_ws>/gelslight_tracking/src/find_marker.so` is an issue with the defined python version in the makefile. Update the python calls in `/<path_to_ws>/gelslight_tracking/makefile`. Note that python3 is used when running on Weebo and python2 is used when running on Nano. 
 
 ## To Do
-* The calibration process in its current state is tedious and painful. Something that may help is to design a better strain relief for the camera cable. Larger and fewer markers may also be helpful as it will improve the marker detection and decrease overall latency. 
+* The sensor configuration process in its current state is tedious and painful. Something that may help is to design a better strain relief for the camera cable. Larger and fewer markers may also be helpful as it will improve the marker detection and decrease overall latency. 
 * False positives may occur for marker detection due to debris getting trapped between the gray ink and the sensor pad, or the clear silicone securing the pad to the core which allows external lights to be seen by the camera. Again, larger and fewer markers may help false positives as well as false negatives. Different colored ink like red or blue may decrease false positives as well. 
-* A common issue with the marker tracking that occurs when pushing on the fork is the displacement vectors freezing when the force is released. This occurs because the force is released too rapidly. This creates a large displacement which may not register with the tracking algorithm. Potential solutions may be to speed up the algorithm and ensure that force changes are not too rapid. 
 * New calibration are required for average linear displacement and force. 
 * Slipping between the sensor pad and the fork handle causes issues as the dots may permanently deform, causes discrepancies in the force reading. 
 * An unexplored property is degradation over time of the sensor pad. The silicone ink may rub off and the silicone properties may not be constant with respect to time.
