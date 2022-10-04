@@ -9,13 +9,25 @@ def init():
     dx_, dy_: the horizontal and vertical interval between adjacent markers (in original size)
     fps_: the desired frame per second, the algorithm will find the optimal solution in 1/fps seconds
     """
+    ## Settings for gelsight finger 1
+    '''
     N_ = 8
-    #M_ = 8
     M_ = 14
     fps_ = 30
     x0_ = 50
     y0_ = 200
     dx_ = 25
+    dy_ = 24
+    '''
+
+    ## Settings for gelsight finger 2
+
+    N_ = 8
+    M_ = 14
+    fps_ = 30
+    x0_ = 60
+    y0_ = 100
+    dx_ = 30
     dy_ = 24
 
     #x0_ = 100 / RESCALE

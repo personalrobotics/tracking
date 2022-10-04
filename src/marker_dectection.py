@@ -25,12 +25,12 @@ def find_marker(frame):
     diff[diff<0.] = 0.
     diff[diff>255.] = 255.
     diff = cv2.GaussianBlur(diff, (int(scale/RESCALE), int(scale/RESCALE)), 0)
-    cv2.imshow("diff", diff)
+    #cv2.imshow("diff", diff)
 
     # Switch image from BGR colorspace to HSV
     hsv = cv2.cvtColor(diff.astype(np.uint8), cv2.COLOR_BGR2HSV)
     
-    cv2.imshow("Pre-Mask", hsv)
+    #cv2.imshow("Pre-Mask", hsv)
 
     yellowMin = (20, 170, 10)
     yellowMax = (50, 255, 50)
@@ -39,7 +39,7 @@ def find_marker(frame):
 
     # Sets pixels to white if in yellow range, else will be set to black
     mask = cv2.inRange(hsv, yellowMin, yellowMax)
-    cv2.imshow("mask", mask)
+    #cv2.imshow("mask", mask)
 
     return mask
 
@@ -68,7 +68,7 @@ def marker_center(mask, frame):
             # if t['mu11'] < -100: continue
             MarkerCenter.append(mc)
             # print(mc)
-            cv2.circle(frame, (int(mc[0]), int(mc[1])), 1, ( 0, 0, 255 ), 2, 6);
+            #cv2.circle(frame, (int(mc[0]), int(mc[1])), 1, ( 0, 0, 255 ), 2, 6);
 
     # 0:x 1:y
     #print("Number of markers: ", len(MarkerCenter))
@@ -85,8 +85,8 @@ def draw_flow(frame, flow):
             if Occupied[i][j] <= -1:
                 color = (127, 127, 255)
             
-            #cv2.arrowedLine(frame, pt1, pt2, color, 2,  tipLength=0.2)
-            cv2.circle(frame, pt2, 5, ( 0, 255, 0 ), 2, 6)
+            cv2.arrowedLine(frame, pt1, pt2, color, 2,  tipLength=0.2)
+            #cv2.circle(frame, pt2, 5, ( 0, 255, 0 ), 2, 6)
 
 
 def warp_perspective(img):

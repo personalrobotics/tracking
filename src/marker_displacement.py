@@ -20,4 +20,6 @@ def avg_z_curl(flow):
 	v_grad_x = np.true_divide(np.gradient(Cy, axis=1), np.gradient(Ox, axis=1))
 	u_grad_y = np.true_divide(np.gradient(Cx, axis=0), np.gradient(Oy, axis=0))
 	curl_z = np.add(v_grad_x, u_grad_y)
-	return sum(sum(curl_z))/(xlen*ylen)
+	torque = sum(sum(curl_z))/(xlen*ylen) - 0.019
+	#print(torque)
+	return torque

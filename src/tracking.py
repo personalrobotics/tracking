@@ -1,3 +1,5 @@
+#!/usr/bin/env/ python
+
 import find_marker
 import numpy as np
 import cv2
@@ -11,7 +13,7 @@ from geometry_msgs.msg import Wrench
 
 ##### ROS COMMENT
 rospy.init_node('gelsight', anonymous=True)
-pub = rospy.Publisher('dot_displacement', Wrench, queue_size=10)
+pub = rospy.Publisher('gelsight_ft', Wrench, queue_size=10)
 marker_wrench = Wrench()
 
 marker_wrench.force.x = 0
@@ -56,15 +58,15 @@ dx_, dy_: the horizontal and vertical interval between adjacent markers
 # save video
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
+'''
 if gelsight_version == 'HSR':
     out = cv2.VideoWriter('output.mp4',fourcc, 30.0, (640,480))
 else:
     #out = cv2.VideoWriter('output.mp4',fourcc, 30.0, (1280//RESCALE,720//RESCALE))
     out = cv2.VideoWriter('output.mp4',fourcc, 30.0, (1280//RESCALE,960//RESCALE))
+'''
 
 #for i in range(30): ret, frame = cap.read()
-
-# num_markers = []
 
 while(True):
 #for i in range(200):
@@ -89,19 +91,15 @@ while(True):
 
     # find marker centers
     mc = marker_dectection.marker_center(mask, frame)
-    
-    #### Record len(mc) and tune marker_center so that the std is low
-    #num_markers.append(len(mc))
 
     if calibrate == False:
         tm = time.time()
         # # matching init
         m.init(mc)
-        #print(m)
         # # matching
         m.run()
         print("dt:", time.time() - tm)
-        # print("m: ", type(m))
+        print(len(mc))
         # # matching result
         """
         output: (Ox, Oy, Cx, Cy, Occupied) = flow
@@ -113,7 +111,6 @@ while(True):
         flow = m.get_flow()
 
         # # draw flow
-        # TODO: Uncomment below
         marker_dectection.draw_flow(frame, flow)
 
     mask_img = mask.astype(frame[0].dtype)
@@ -122,16 +119,16 @@ while(True):
     # cv2.imshow('raw',frame_raw)
     cv2.imshow('frame',frame)
 
-    if calibrate:
+    #if calibrate:
         # Display the mask 
-        cv2.imshow('mask',mask_img)
+        #cv2.imshow('mask',mask_img)
 
-    out.write(frame)
+    #out.write(frame)
 
     z_dist = marker_displacement.avg_z_displacement(flow)
-    print("Force Z: ", z_dist)
+    #print("Force Z: {}".format(z_dist))
     z_torque = marker_displacement.avg_z_curl(flow)
-    print("Torque Z: ", z_torque)
+    #print("Torque Z: {}".format(z_torque))
     
     ##### ROS COMMENT
     
@@ -146,5 +143,5 @@ while(True):
 
 # When everything done, release the capture
 cap.release()
-out.release()
+#out.release()
 cv2.destroyAllWindows()
